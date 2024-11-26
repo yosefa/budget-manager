@@ -31,6 +31,33 @@
                 background-color: rgba(247, 144, 9, 0.1);
                 color: #f79009;
             }
+            .account-card {
+                position: relative;
+                overflow: hidden;
+            }
+            .account-card::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+                transform: rotate(-45deg);
+                z-index: 1;
+                transition: transform 0.3s ease;
+            }
+            .account-card:hover::before {
+                transform: rotate(0deg);
+            }
+            .account-details {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .account-details-right {
+                text-align: right;
+            }
             /* Floating Action Button Styles */
             .fab {
                 position: fixed;
@@ -184,45 +211,86 @@
                         <h2 class="text-2xl font-semibold text-blue-600">Accounts</h2>
                     </div>
 
-                    <div id="accountsList" class="space-y-6">
+                    <div id="accountsList" class="grid md:grid-cols-3 gap-6">
+                        <!-- Card Account -->
                         <div
-                            class="card bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                            id="cardAccountCard"
+                            class="account-card bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
                         >
-                            <div class="flex items-center justify-between">
+                            <div class="account-details">
                                 <div class="flex items-center gap-3">
                                     <span class="material-icons text-blue-600">credit_card</span>
                                     <span class="font-semibold text-blue-600">Card</span>
                                 </div>
-                                <span id="cardBalance" class="font-semibold text-gray-700">$0.00</span>
+                                <div class="account-details-right">
+                                    <span id="cardBalance" class="font-bold text-gray-800 text-xl">$0.00</span>
+                                    <div class="text-sm text-gray-500">Total Spent</div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="h-2 bg-blue-200 rounded-full overflow-hidden">
+                                    <div id="cardSpendingBar" class="h-full bg-blue-600" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>$0</span>
+                                    <span id="cardSpendingLimit">$500</span>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Cash Account -->
                         <div
-                            class="card bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                            id="cashAccountCard"
+                            class="account-card bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
                         >
-                            <div class="flex items-center justify-between">
+                            <div class="account-details">
                                 <div class="flex items-center gap-3">
                                     <span class="material-icons text-green-600">monetization_on</span>
                                     <span class="font-semibold text-green-600">Cash</span>
                                 </div>
-                                <span id="cashBalance" class="font-semibold text-gray-700">$0.00</span>
+                                <div class="account-details-right">
+                                    <span id="cashBalance" class="font-bold text-gray-800 text-xl">$0.00</span>
+                                    <div class="text-sm text-gray-500">Total Spent</div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="h-2 bg-green-200 rounded-full overflow-hidden">
+                                    <div id="cashSpendingBar" class="h-full bg-green-600" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>$0</span>
+                                    <span id="cashSpendingLimit">$300</span>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- E-Wallet Account -->
                         <div
-                            class="card bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                            id="ewalletAccountCard"
+                            class="account-card bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
                         >
-                            <div class="flex items-center justify-between">
+                            <div class="account-details">
                                 <div class="flex items-center gap-3">
                                     <span class="material-icons text-purple-600">smartphone</span>
                                     <span class="font-semibold text-purple-600">E-Wallet</span>
                                 </div>
-                                <span id="ewalletBalance" class="font-semibold text-gray-700">$0.00</span>
+                                <div class="account-details-right">
+                                    <span id="ewalletBalance" class="font-bold text-gray-800 text-xl">$0.00</span>
+                                    <div class="text-sm text-gray-500">Total Spent</div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="h-2 bg-purple-200 rounded-full overflow-hidden">
+                                    <div id="ewalletSpendingBar" class="h-full bg-purple-600" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>$0</span>
+                                    <span id="ewalletSpendingLimit">$200</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- Cash Flow Section -->
                 <div
                     class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl"
@@ -258,9 +326,7 @@
                         <span class="material-icons text-blue-600">pie_chart</span>
                         <h2 class="text-2xl font-semibold text-blue-600">Expense Structure</h2>
                     </div>
-                    <div
-                        class="mt-6"
-                    >
+                    <div class="mt-6">
                         <canvas id="expenseStructureChart" width="300" height="200"></canvas>
                     </div>
                 </div>
@@ -323,9 +389,21 @@
                     category: "Utilities",
                 },
                 { date: "2024-11-21", description: "Lunch", amount: 12.5, account: "E-Wallet", category: "Shopping" },
-                { date: "2024-11-21", description: "Lunch", amount: 12.5, account: "E-Wallet", category: "Communication, PC" },
+                {
+                    date: "2024-11-21",
+                    description: "Lunch",
+                    amount: 12.5,
+                    account: "E-Wallet",
+                    category: "Communication, PC",
+                },
                 { date: "2024-11-21", description: "Lunch", amount: 12.5, account: "E-Wallet", category: "Others" },
-                { date: "2024-11-21", description: "Lunch", amount: 12.5, account: "E-Wallet", category: "Life & Entertainment" },
+                {
+                    date: "2024-11-21",
+                    description: "Lunch",
+                    amount: 12.5,
+                    account: "E-Wallet",
+                    category: "Life & Entertainment",
+                },
             ];
 
             function updatePeriodDisplay() {
