@@ -13,3 +13,5 @@ content: ['./index.html'],
 ### generate css
 ```npx tailwindcss build -o tailwind.css --watch
 ```
+
+done
